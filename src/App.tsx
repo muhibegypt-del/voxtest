@@ -5,7 +5,7 @@ import Footer from './components/Footer';
 import Home from './pages/Home';
 import LatestStories from './pages/LatestStories';
 import ArticleDetail from './pages/ArticleDetail';
-import EnhancedAdminDashboard from './pages/EnhancedAdminDashboard';
+import AdminDashboard from './pages/AdminDashboard'; // Changed import
 import ProtectedRoute from './components/ProtectedRoute';
 
 function App() {
@@ -22,7 +22,7 @@ function App() {
               path="/admin"
               element={
                 <ProtectedRoute>
-                  <EnhancedAdminDashboard />
+                  <AdminDashboard /> {/* Changed component name */}
                 </ProtectedRoute>
               }
             />
