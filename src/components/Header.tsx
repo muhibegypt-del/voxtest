@@ -1,156 +1,116 @@
 import { Search, Menu, X, LogIn, LogOut } from 'lucide-react';
 import { useState } from 'react';
-import { Link } from 'react-router-dom'; // <-- New Import for better routing
 import { useAuth } from '../contexts/AuthContext';
 import LoginModal from './LoginModal';
 
-// Map the hardcoded nav items to potential routes/sections
-const MAIN_NAV = [
-  { name: 'Latest Stories', path: '/latest' },
-  { name: 'Analysis', path: '#' }, // Potential new route
-  { name: 'Voices', path: '#' },
-  { name: 'Media', path: '#' },
-  { name: 'The Archive', path: '#' },
+// List of sections based on project/supabase/migrations/20251119090738_create_content_sections_schema.sql
+const NAV_SECTIONS = [
+  { name: 'ANALYSIS', path: '/analysis' },
+  { name: 'VOICES', path: '/voices' },
+  { name: 'MEDIA', path: '/media' },
+  { name: 'THE STORE', path: '/store' },
+  { name: 'FOUNDATIONS', path: '/foundations' },
+  { name: 'THE ARCHIVE', path: '/archive' },
+  { name: 'BOOKSHELF', path: '/bookshelf' },
+  { name: 'CIRCLES', path: '/circles' },
+  { name: 'WHO WE ARE', path: '/about' },
 ];
-
-const UTILITY_NAV = [
-  { name: 'The Store', path: '#' },
-  { name: 'Foundations', path: '#' },
-  { name: 'Bookshelf', path: '#' },
-];
-
 
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [loginModalOpen, setLoginModalOpen] = useState(false);
   const { user, signOut } = useAuth();
 
-  return (
-    <header className="bg-neutral-900 sticky top-0 z-50 shadow-lg">
-      <div className="max-w-7xl mx-auto px-4">
+  const renderNavLinks = () => (
+    <>
+      {NAV_SECTIONS.map(section => (
+        <a key={section.name} href={section.path} className="text-sm hover:text-red-600 transition-colors">
+          {section.name}
+        </a>
+      ))}
+      {user && (
+        <a href="/admin" className="text-sm bg-red-600 px-3 py-1 rounded hover:bg-red-700 transition-colors">ADMIN</a>
+      )}
+    </>
+  );
 
-        {/* Top Masthead: Logo and Auth/Search */}
-        <div className="flex items-center justify-between h-16 border-b border-neutral-800">
-          
-          {/* Logo and Home Link */}
-          <Link to="/" className="flex items-center space-x-2">
+  return (
+    <header className="bg-neutral-900 text-white sticky top-0 z-50">
+      <div className="max-w-7xl mx-auto px-4">
+        <div className="flex items-center justify-between h-16">
+          <div className="flex items-center space-x-8">
             <img
               src="/Voxummah.png"
               alt="Voxummah"
-              className="h-10 w-auto transition-opacity hover:opacity-85"
+              className="h-10 w-auto"
             />
-          </Link>
 
-          {/* Utility & Auth on Right */}
-          <div className="flex items-center space-x-6">
-            
-            {/* Desktop Utility Links */}
-            <nav className="hidden lg:flex items-center space-x-6">
-                {UTILITY_NAV.map((item) => (
-                    <Link 
-                        key={item.name} 
-                        to={item.path} 
-                        className="text-xs uppercase font-medium tracking-wide text-neutral-400 hover:text-red-600 transition-colors"
-                    >
-                        {item.name}
-                    </Link>
-                ))}
+            <nav className="hidden md:flex items-center space-x-6">
+              {renderNavLinks()}
             </nav>
+          </div>
 
-            {/* Separator */}
-            <div className="hidden lg:block w-px h-6 bg-neutral-700"></div>
-
-
-            {/* Search Button */}
-            <button className="text-white hover:text-red-600 transition-colors hidden md:block" aria-label="Search">
+          <div className="flex items-center space-x-4">
+            <button className="hover:text-red-600 transition-colors">
               <Search size={20} />
             </button>
-            
-            {/* Auth/Admin Button */}
+
             {user ? (
-              <div className="flex items-center space-x-4">
-                <Link 
-                    to="/admin" 
-                    className="text-sm px-3 py-1 font-semibold border border-red-600 text-red-600 rounded hover:bg-red-600 hover:text-white transition-colors hidden sm:block"
-                >
-                    CMS Admin
-                </Link>
-                <button
-                  onClick={signOut}
-                  className="flex items-center space-x-2 text-sm text-neutral-400 hover:text-red-600 transition-colors"
-                >
-                  <LogOut size={18} />
-                  <span className="hidden sm:inline">Logout</span>
-                </button>
-              </div>
+              <button
+                onClick={signOut}
+                className="hidden md:flex items-center space-x-2 text-sm hover:text-red-600 transition-colors"
+              >
+                <LogOut size={18} />
+                <span>Logout</span>
+              </button>
             ) : (
               <button
                 onClick={() => setLoginModalOpen(true)}
-                className="flex items-center space-x-2 text-sm text-neutral-400 hover:text-red-600 transition-colors"
+                className="hidden md:flex items-center space-x-2 text-sm hover:text-red-600 transition-colors"
               >
                 <LogIn size={18} />
-                <span className="hidden sm:inline">Login</span>
+                <span>Login</span>
               </button>
             )}
 
-            {/* Mobile Menu Toggle */}
             <button
-              className="md:hidden text-white hover:text-red-600 transition-colors"
+              className="md:hidden hover:text-red-600 transition-colors"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              aria-label="Toggle menu"
             >
               {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
           </div>
         </div>
-
-        {/* Secondary Navigation Bar (Only visible on Desktop) */}
-        <div className="hidden md:flex items-center justify-start h-10">
-            <nav className="flex items-center space-x-8">
-                {MAIN_NAV.map((item) => (
-                    <Link 
-                        key={item.name} 
-                        to={item.path} 
-                        className="text-base text-white hover:text-red-600 transition-colors uppercase"
-                        // Leverages 'Barlow Condensed' for bold, expansive menu typography
-                        style={{ fontFamily: 'Barlow Condensed, sans-serif' }} 
-                    >
-                        {item.name}
-                    </Link>
-                ))}
-            </nav>
-        </div>
-
       </div>
 
-      {/* Mobile Menu */}
       {mobileMenuOpen && (
-        <div className="md:hidden bg-neutral-800 border-t border-neutral-700 absolute w-full left-0 z-40">
-          <nav className="px-4 py-4 space-y-4">
-            <h4 className="text-xs text-neutral-400 font-semibold mb-2 uppercase">Sections</h4>
-            {[...MAIN_NAV, ...UTILITY_NAV].map((item) => (
-                <Link 
-                    key={item.name}
-                    to={item.path} 
-                    onClick={() => setMobileMenuOpen(false)}
-                    className="block text-lg font-bold text-white hover:text-red-600 transition-colors border-b border-neutral-700 pb-2"
-                >
-                    {item.name}
-                </Link>
+        <div className="md:hidden bg-neutral-800 border-t border-neutral-700">
+          <nav className="px-4 py-4 space-y-3">
+            {NAV_SECTIONS.map(section => (
+              <a key={section.name} href={section.path} className="block text-sm hover:text-red-600 transition-colors">
+                {section.name}
+              </a>
             ))}
             {user && (
-              <Link 
-                  to="/admin" 
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="block text-lg font-bold bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 transition-colors mt-4"
-              >
-                  CMS Admin
-              </Link>
+              <a href="/admin" className="block text-sm bg-red-600 px-3 py-1 rounded hover:bg-red-700 transition-colors">ADMIN</a>
             )}
-            <button className="flex items-center space-x-2 text-white hover:text-red-600 transition-colors pt-4">
-              <Search size={20} />
-              <span>Search</span>
-            </button>
+            {user ? (
+              <button
+                onClick={signOut}
+                className="flex items-center space-x-2 text-sm hover:text-red-600 transition-colors"
+              >
+                <LogOut size={18} />
+                <span>Logout</span>
+              </button>
+            ) : (
+              <button
+                onClick={() => setLoginModalOpen(true)}
+                className="flex items-center space-x-2 text-sm hover:text-red-600 transition-colors"
+              >
+                <LogIn size={18} />
+                <span>Login</span>
+              </button>
+            )}
           </nav>
         </div>
       )}
