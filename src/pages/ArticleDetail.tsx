@@ -1,23 +1,7 @@
 import { useEffect, useState, useRef } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { supabase } from '../lib/supabase';
+import { ARTICLES, Article } from '../data/mockData';
 import { ArrowLeft, Calendar, User, Tag, Eye } from 'lucide-react';
-import { recordArticleView } from '../lib/cms-utils';
-
-interface Article {
-  id: string;
-  title: string;
-  slug: string;
-  body: string;
-  excerpt: string | null;
-  image_url: string | null;
-  category: string;
-  published: boolean;
-  created_at: string;
-  author_id: string;
-  tags: string[];
-  view_count: number;
-}
 
 export default function ArticleDetail() {
   const { slug } = useParams<{ slug: string }>();
@@ -30,7 +14,19 @@ export default function ArticleDetail() {
 
   useEffect(() => {
     if (slug) {
-      fetchArticle();
+      const foundArticle = ARTICLES.find(a => a.slug === slug);
+      if (foundArticle) {
+        setArticle(foundArticle);
+        
+        // Get related articles from same category
+        const related = ARTICLES
+          .filter(a => a.category === foundArticle.category && a.id !== foundArticle.id)
+          .slice(0, 3);
+        setRelatedArticles(related);
+      } else {
+        setError(true);
+      }
+      setLoading(false);
     }
   }, [slug]);
 
@@ -62,47 +58,6 @@ export default function ArticleDetail() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, [article]);
 
-  const fetchArticle = async () => {
-    try {
-      setLoading(true);
-      setError(false);
-
-      const { data, error: fetchError } = await supabase
-        .from('articles')
-        .select('*')
-        .eq('slug', slug)
-        .eq('published', true)
-        .maybeSingle();
-
-      if (fetchError) throw fetchError;
-
-      if (!data) {
-        setError(true);
-        return;
-      }
-
-      setArticle(data);
-
-      await recordArticleView(data.id, navigator.userAgent);
-
-      const { data: related } = await supabase
-        .from('articles')
-        .select('*')
-        .eq('category', data.category)
-        .eq('published', true)
-        .neq('id', data.id)
-        .order('created_at', { ascending: false })
-        .limit(3);
-
-      setRelatedArticles(related || []);
-    } catch (err) {
-      console.error('Error fetching article:', err);
-      setError(true);
-    } finally {
-      setLoading(false);
-    }
-  };
-
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
     return date.toLocaleDateString('en-US', {
@@ -110,13 +65,6 @@ export default function ArticleDetail() {
       month: 'long',
       day: 'numeric',
     });
-  };
-
-  const getImageUrl = (imageUrl: string | null) => {
-    if (imageUrl) {
-      return imageUrl;
-    }
-    return 'https://images.pexels.com/photos/6077326/pexels-photo-6077326.jpeg?auto=compress&cs=tinysrgb&w=1200';
   };
 
   if (loading) {
@@ -208,7 +156,7 @@ export default function ArticleDetail() {
             <div className="flex flex-wrap items-center gap-4 text-sm text-neutral-600 mb-8 pb-8 border-b border-neutral-200">
               <div className="flex items-center space-x-2">
                 <User size={16} />
-                <span>{article.author_name || 'Staff Writer'}</span>
+                <span>{article.author_name}</span>
               </div>
               <div className="flex items-center space-x-2">
                 <Calendar size={16} />
@@ -225,7 +173,7 @@ export default function ArticleDetail() {
 
           <div className="relative overflow-hidden rounded-lg mb-8 aspect-video bg-neutral-200">
             <img
-              src={getImageUrl(article.image_url)}
+              src={article.image_url}
               alt={article.title}
               className="w-full h-full object-cover"
             />
@@ -271,7 +219,7 @@ export default function ArticleDetail() {
                 >
                   <div className="relative overflow-hidden rounded-sm mb-3 aspect-video bg-neutral-200">
                     <img
-                      src={getImageUrl(related.image_url)}
+                      src={related.image_url}
                       alt={related.title}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                     />

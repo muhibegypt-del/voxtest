@@ -1,19 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { Link } from 'react-router-dom';
-import { supabase } from '../lib/supabase';
+import { ARTICLES, Article } from '../data/mockData';
 import { Search, Filter, Calendar, User, Share2, Facebook, Twitter, Linkedin, ChevronDown } from 'lucide-react';
-
-interface Article {
-  id: string;
-  title: string;
-  slug: string;
-  body: string;
-  image_url: string | null;
-  category: string;
-  published: boolean;
-  created_at: string;
-  author_id: string;
-}
 
 const ITEMS_PER_PAGE = 12;
 const CATEGORIES = ['All', 'News', 'Politics', 'Technology', 'Business', 'Sports', 'Entertainment'];
@@ -21,7 +9,7 @@ const CATEGORIES = ['All', 'News', 'Politics', 'Technology', 'Business', 'Sports
 export default function LatestStories() {
   const [articles, setArticles] = useState<Article[]>([]);
   const [filteredArticles, setFilteredArticles] = useState<Article[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
@@ -31,7 +19,7 @@ export default function LatestStories() {
   const observerTarget = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    fetchArticles();
+    setArticles(ARTICLES);
   }, []);
 
   useEffect(() => {
@@ -59,25 +47,6 @@ export default function LatestStories() {
       }
     };
   }, [hasMore, loading]);
-
-  const fetchArticles = async () => {
-    try {
-      setLoading(true);
-      const { data, error } = await supabase
-        .from('articles')
-        .select('*')
-        .eq('published', true)
-        .order('created_at', { ascending: false });
-
-      if (error) throw error;
-      setArticles(data || []);
-      setHasMore((data?.length || 0) > ITEMS_PER_PAGE);
-    } catch (error) {
-      console.error('Error fetching articles:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
 
   const filterArticles = () => {
     let filtered = [...articles];
@@ -118,11 +87,6 @@ export default function LatestStories() {
   const getExcerpt = (body: string, maxLength: number = 120) => {
     if (body.length <= maxLength) return body;
     return body.slice(0, maxLength).trim() + '...';
-  };
-
-  const getImageUrl = (imageUrl: string | null) => {
-    if (imageUrl) return imageUrl;
-    return 'https://images.pexels.com/photos/6077326/pexels-photo-6077326.jpeg?auto=compress&cs=tinysrgb&w=800';
   };
 
   const handleShare = (article: Article, platform: string) => {
@@ -232,7 +196,7 @@ export default function LatestStories() {
                   <Link to={`/article/${article.slug}`} className="block">
                     <div className="relative overflow-hidden rounded-sm mb-4 aspect-video bg-neutral-200">
                       <img
-                        src={getImageUrl(article.image_url)}
+                        src={article.image_url}
                         alt={article.title}
                         loading="lazy"
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
@@ -256,7 +220,7 @@ export default function LatestStories() {
                       <div className="flex items-center space-x-4">
                         <div className="flex items-center space-x-1">
                           <User size={14} />
-                          <span>Staff Writer</span>
+                          <span>{article.author_name}</span>
                         </div>
                         <div className="flex items-center space-x-1">
                           <Calendar size={14} />

@@ -1,7 +1,5 @@
-import { Search, Menu, X, LogIn, LogOut } from 'lucide-react';
+import { Search, Menu, X } from 'lucide-react';
 import { useState } from 'react';
-import { useAuth } from '../contexts/AuthContext';
-import LoginModal from './LoginModal';
 
 // List of sections based on project/supabase/migrations/20251119090738_create_content_sections_schema.sql
 const NAV_SECTIONS = [
@@ -18,8 +16,6 @@ const NAV_SECTIONS = [
 
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [loginModalOpen, setLoginModalOpen] = useState(false);
-  const { user, signOut } = useAuth();
 
   const renderNavLinks = () => (
     <>
@@ -28,9 +24,6 @@ export default function Header() {
           {section.name}
         </a>
       ))}
-      {user && (
-        <a href="/admin" className="text-sm bg-red-600 px-3 py-1 rounded hover:bg-red-700 transition-colors">ADMIN</a>
-      )}
     </>
   );
 
@@ -55,24 +48,6 @@ export default function Header() {
               <Search size={20} />
             </button>
 
-            {user ? (
-              <button
-                onClick={signOut}
-                className="hidden md:flex items-center space-x-2 text-sm hover:text-red-600 transition-colors"
-              >
-                <LogOut size={18} />
-                <span>Logout</span>
-              </button>
-            ) : (
-              <button
-                onClick={() => setLoginModalOpen(true)}
-                className="hidden md:flex items-center space-x-2 text-sm hover:text-red-600 transition-colors"
-              >
-                <LogIn size={18} />
-                <span>Login</span>
-              </button>
-            )}
-
             <button
               className="md:hidden hover:text-red-600 transition-colors"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -91,31 +66,9 @@ export default function Header() {
                 {section.name}
               </a>
             ))}
-            {user && (
-              <a href="/admin" className="block text-sm bg-red-600 px-3 py-1 rounded hover:bg-red-700 transition-colors">ADMIN</a>
-            )}
-            {user ? (
-              <button
-                onClick={signOut}
-                className="flex items-center space-x-2 text-sm hover:text-red-600 transition-colors"
-              >
-                <LogOut size={18} />
-                <span>Logout</span>
-              </button>
-            ) : (
-              <button
-                onClick={() => setLoginModalOpen(true)}
-                className="flex items-center space-x-2 text-sm hover:text-red-600 transition-colors"
-              >
-                <LogIn size={18} />
-                <span>Login</span>
-              </button>
-            )}
           </nav>
         </div>
       )}
-
-      <LoginModal isOpen={loginModalOpen} onClose={() => setLoginModalOpen(false)} />
     </header>
   );
 }
