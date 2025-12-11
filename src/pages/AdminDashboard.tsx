@@ -25,9 +25,9 @@ import {
   linkArticleToTags
 } from '../lib/cms-utils';
 import { Subcategory, Region } from '../types/cms';
-import RichTextEditor from './RichTextEditor';
-import TagInput from './TagInput';
-import SEOPanel from './SEOPanel';
+import RichTextEditor from '../components/RichTextEditor';
+import TagInput from '../components/TagInput';
+import SEOPanel from '../components/SEOPanel';
 
 // Fallback data in case import fails
 const FALLBACK_CATEGORIES = ['News', 'Politics', 'Technology', 'Business', 'Sports', 'Entertainment'];
