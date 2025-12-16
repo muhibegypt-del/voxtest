@@ -37,7 +37,7 @@ export default function CategorySection() {
                   </div>
                   <div>
                     {/* Headline: Interactive state triggers Brand Red */}
-                    <h3 className="text-lg font-heading font-bold text-neutral-900 mb-2 group-hover:text-brand-hover-green transition-colors leading-tight line-clamp-2 break-words">
+                    <h3 className="text-lg font-heading font-bold text-neutral-900 mb-2 group-hover:text-brand-red transition-colors leading-tight line-clamp-2 break-words">
                       {story.title}
                     </h3>
                     {/* Excerpt: Uses the new Neutral-600 (High readability grey) */}
@@ -77,7 +77,7 @@ export default function CategorySection() {
                   </div>
                   <div>
                     {/* Headline: Interactive state triggers Brand Green */}
-                    <h3 className="text-lg font-heading font-bold text-neutral-900 mb-2 group-hover:text-brand-hover-green transition-colors leading-tight line-clamp-2 break-words">
+                    <h3 className="text-lg font-heading font-bold text-neutral-900 mb-2 group-hover:text-brand-green transition-colors leading-tight line-clamp-2 break-words">
                       {story.title}
                     </h3>
                     <p className="text-sm text-neutral-600 leading-relaxed line-clamp-2 break-words">

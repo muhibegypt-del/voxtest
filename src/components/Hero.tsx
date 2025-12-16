@@ -40,7 +40,7 @@ export default function Hero() {
 
             {/* Headline with Enhanced Typography */}
             {/* Added 'font-heading' to enforce Barlow Condensed */}
-            <h2 className="text-4xl lg:text-5xl font-heading font-bold text-neutral-900 mb-2 group-hover:text-brand-hover-green transition-colors leading-tight line-clamp-3 break-words">
+            <h2 className="text-4xl lg:text-5xl font-heading font-bold text-neutral-900 mb-2 group-hover:text-brand-red transition-colors leading-tight line-clamp-3 break-words">
               {article.title}
             </h2>
 

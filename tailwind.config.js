@@ -13,8 +13,6 @@ export default {
         red: '#ba2a33',          // The Pulse (Breaking, Urgent)
         green: '#096939',        // The Foundation (Identity)
         'green-deep': '#0d6b35', // Interaction Hover State
-        'hover-green': '#143a21', // System-wide hover text
-        'hover-red': '#711f29',   // System-wide hover underline
       },
 
       // 2. SECTION IDENTITIES (The "Bespoke" Palette)
