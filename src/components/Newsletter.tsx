@@ -2,14 +2,18 @@ import { Mail } from 'lucide-react';
 
 export default function Newsletter() {
   return (
-    <section className="bg-red-700 py-12">
+    // STRICT: Uses 'bg-brand-red' (#ba2a33) instead of arbitrary red-700
+    <section className="bg-brand-red py-12">
       <div className="max-w-4xl mx-auto px-4 text-center">
         <div className="flex justify-center mb-4">
           <Mail size={48} className="text-white" />
         </div>
-        <h2 className="text-3xl font-bold text-white mb-3">
+        
+        {/* Typography: Using font-heading for the call-to-action */}
+        <h2 className="text-3xl font-heading font-bold text-white mb-3">
           Subscribe to Our Newsletter
         </h2>
+        
         <p className="text-white text-lg mb-6 opacity-90">
           Get independent journalism delivered to your inbox
         </p>
@@ -18,13 +22,16 @@ export default function Newsletter() {
           <input
             type="email"
             placeholder="Enter your email address"
-            className="flex-1 px-4 py-3 rounded-sm text-neutral-900 placeholder-neutral-500 focus:outline-none focus:ring-2 focus:ring-white"
+            // Input Text: dark grey (neutral-900) for readability
+            // Focus Ring: White to contrast against the red background
+            className="flex-1 px-4 py-3 rounded-sm text-neutral-900 placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-white"
           />
           <button
             type="submit"
-            className="px-8 py-3 bg-neutral-900 text-white font-semibold rounded-sm hover:bg-neutral-800 transition-colors"
+            // Button: Dark neutral background for high contrast
+            className="px-8 py-3 bg-neutral-900 text-white font-heading font-bold tracking-wide rounded-sm hover:bg-neutral-800 transition-colors"
           >
-            Subscribe
+            SUBSCRIBE
           </button>
         </form>
 
