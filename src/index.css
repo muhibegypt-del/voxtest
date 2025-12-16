@@ -13,4 +13,13 @@
     font-family: 'Barlow Condensed', sans-serif;
     letter-spacing: -0.02em;
   }
+
+  a, button {
+    @apply transition-all duration-300;
+  }
+
+  a:hover {
+    color: #143a21;
+    border-bottom-color: #711f29;
+  }
 }

@@ -10,8 +10,8 @@ export default function LatestStories() {
     // bg-neutral-50 maps to #FAFAFA (Very subtle separation from white)
     <section className="bg-neutral-50 py-12">
       <div className="max-w-7xl mx-auto px-4">
-        {/* Section Header: Standardized with CategorySection style */}
-        <h2 className="text-2xl font-heading font-bold text-neutral-900 mb-6 pb-3 border-b-2 border-brand-red">
+        {/* Section Header: Split-colored border (half green, half red) */}
+        <h2 className="text-2xl font-heading font-bold text-neutral-900 mb-6 pb-3" style={{ borderBottom: '2px solid', backgroundImage: 'linear-gradient(to right, #143a21 50%, #711f29 50%)', backgroundClip: 'border-box', WebkitBackgroundClip: 'border-box', borderImage: 'linear-gradient(to right, #143a21 50%, #711f29 50%) 1' }}>
           LATEST STORIES
         </h2>
 
