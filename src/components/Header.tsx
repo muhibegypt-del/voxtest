@@ -32,7 +32,6 @@ export default function Header() {
       {/* ------------------------------------------------------
          DESKTOP LAYER 1: THE MASTHEAD
       ------------------------------------------------------- */}
-      {/* Height optimized for "Full Logo" presence */}
       <div className="bg-neutral-900 text-white border-b border-neutral-800 hidden md:block">
         <div className="max-w-7xl mx-auto px-4 h-24 flex items-center justify-between">
           
@@ -43,14 +42,8 @@ export default function Header() {
             </span>
           </div>
 
-          {/* CENTER: The Brand (Masthead) */}
+          {/* CENTER: The Brand */}
           <div className="w-1/3 flex justify-center">
-            {/* SCALING LOGIC:
-              - h-16 (64px): A standard height for a horizontal "Wordmark" logo in a 96px (h-24) container.
-                This leaves ~16px padding top/bottom for perfect optical centering.
-              - w-auto: Maintains the exact aspect ratio of your new PNG.
-              - object-contain: Ensures no cropping ever occurs.
-            */}
             <img
               src="https://i.ibb.co/fzFr1hQY/full-logo-white-1.png"
               alt="Voxummah"
@@ -60,13 +53,16 @@ export default function Header() {
 
           {/* RIGHT: Actions */}
           <div className="w-1/3 flex items-center justify-end space-x-6">
+            {/* Login Hover: Stays White for contrast */}
             <button className="text-neutral-400 hover:text-white transition-colors flex items-center gap-2 text-xs font-bold tracking-wider uppercase font-sans">
               <User size={16} />
               <span>Sign In</span>
             </button>
+            
             <button className="text-neutral-400 hover:text-brand-red transition-colors">
               <Search size={18} />
             </button>
+            
             <button className="bg-brand-red text-white text-xs font-bold uppercase tracking-widest px-5 py-2 rounded-sm hover:bg-white hover:text-neutral-900 transition-all duration-300 font-sans">
               Subscribe
             </button>
@@ -75,7 +71,7 @@ export default function Header() {
       </div>
 
       {/* ------------------------------------------------------
-         DESKTOP LAYER 2: THE NAVIGATION DECK (Premium Sans)
+         DESKTOP LAYER 2: THE NAVIGATION DECK
       ------------------------------------------------------- */}
       <div className="bg-neutral-900/95 backdrop-blur-sm border-b border-neutral-800 hidden md:block">
         <div className="max-w-7xl mx-auto px-4">
@@ -85,10 +81,10 @@ export default function Header() {
                 <li key={section.name}>
                   <a 
                     href={section.path} 
-                    // PREMIUM TYPOGRAPHY:
-                    // - font-sans + font-bold + tracking-widest = "Geist" / "Helvetica" aesthetic
-                    // - text-sm: Increased size for readability as requested
-                    className="text-sm font-sans font-bold tracking-widest text-neutral-400 hover:text-white hover:border-b-2 hover:border-brand-red pb-2 transition-all duration-200 relative top-[1px]"
+                    // UPDATED HOVER INTERACTION:
+                    // hover:text-brand-green-deep -> Uses the new #0d6b35
+                    // hover:border-brand-green-deep -> Matches the underline to the text
+                    className="text-sm font-sans font-bold tracking-widest text-neutral-400 hover:text-brand-green-deep hover:border-b-2 hover:border-brand-green-deep pb-2 transition-all duration-200 relative top-[1px]"
                   >
                     {section.name}
                   </a>
@@ -103,7 +99,6 @@ export default function Header() {
          MOBILE HEADER
       ------------------------------------------------------- */}
       <div className="md:hidden bg-neutral-900 text-white border-b border-neutral-800 h-20 flex items-center justify-between px-4">
-        {/* Mobile Logo: Scaled to h-10 (40px) to fit comfortably in h-20 header */}
         <img
           src="https://i.ibb.co/fzFr1hQY/full-logo-white-1.png"
           alt="Voxummah"
@@ -115,6 +110,7 @@ export default function Header() {
             <Search size={20} />
           </button>
           <button
+            // Mobile Menu Toggle Hover -> Keeps the Red pulse for consistency with buttons
             className="text-white hover:text-brand-red transition-colors"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           >
@@ -133,7 +129,8 @@ export default function Header() {
               <a 
                 key={section.name} 
                 href={section.path} 
-                className="block text-lg font-sans font-bold tracking-wide text-white border-l-2 border-transparent hover:border-brand-red hover:pl-4 hover:bg-neutral-800 py-2 transition-all duration-300"
+                // Mobile Links also get the Deep Green treatment
+                className="block text-lg font-sans font-bold tracking-wide text-white border-l-2 border-transparent hover:border-brand-green-deep hover:text-brand-green-deep hover:pl-4 hover:bg-neutral-800 py-2 transition-all duration-300"
               >
                 {section.name}
               </a>
