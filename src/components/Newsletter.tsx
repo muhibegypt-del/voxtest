@@ -2,8 +2,7 @@ import { Mail } from 'lucide-react';
 
 export default function Newsletter() {
   return (
-    // STRICT: Uses 'bg-brand-red' (#ba2a33) instead of arbitrary red-700
-    <section className="bg-brand-red py-12">
+    <section className="py-12" style={{ backgroundColor: '#163623' }}>
       <div className="max-w-4xl mx-auto px-4 text-center">
         <div className="flex justify-center mb-4">
           <Mail size={48} className="text-white" />
