@@ -8,12 +8,24 @@ export default {
       white: '#FFFFFF',
       black: '#000000',
 
+      // 1. BRAND CORE
       brand: {
-        red: '#ba2a33',       // Pulse / Action
-        green: '#096939',     // Foundations / Identity
-        'green-deep': '#0d6b35', // INTERACTION STATE (The requested darker shade)
+        red: '#ba2a33',          // The Pulse (Breaking, Urgent)
+        green: '#096939',        // The Foundation (Identity)
+        'green-deep': '#0d6b35', // Interaction Hover State
       },
 
+      // 2. SECTION IDENTITIES (The "Bespoke" Palette)
+      // This allows each nav section to have its own color theme
+      section: {
+        analysis: '#2563EB',    // Intellectual Blue
+        voices: '#7C3AED',      // Expressive Purple
+        media: '#F59E0B',       // Energetic Amber
+        store: '#10B981',       // Commerce Green
+        archive: '#78716C',     // History Stone
+      },
+
+      // 3. NEUTRAL SCALE
       neutral: {
         900: '#111111', 
         800: '#262626', 
@@ -30,11 +42,13 @@ export default {
         warning: '#FBBF24', 
       }
     },
-    // ... rest of config
+    
     fontFamily: {
       sans: ['Inter', 'system-ui', 'sans-serif'],
       heading: ['Barlow Condensed', 'sans-serif'],
     },
+    
+    // Strict Type Scale
     fontSize: {
       xs:   ['0.75rem', { lineHeight: '1rem', letterSpacing: '0.02em' }],
       sm:   ['0.875rem', { lineHeight: '1.25rem' }],
