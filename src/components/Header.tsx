@@ -32,13 +32,12 @@ export default function Header() {
       {/* ------------------------------------------------------
          DESKTOP LAYER 1: THE MASTHEAD
       ------------------------------------------------------- */}
-      {/* Increased height from h-20 to h-24 to accommodate larger logo nicely */}
+      {/* Height optimized for "Full Logo" presence */}
       <div className="bg-neutral-900 text-white border-b border-neutral-800 hidden md:block">
         <div className="max-w-7xl mx-auto px-4 h-24 flex items-center justify-between">
           
           {/* LEFT: Date & Context */}
           <div className="w-1/3 flex items-center space-x-4">
-            {/* Switched to font-sans for cleaner look */}
             <span className="text-xs font-sans text-neutral-400 font-medium tracking-wide uppercase">
               {getCurrentDate()}
             </span>
@@ -46,12 +45,16 @@ export default function Header() {
 
           {/* CENTER: The Brand (Masthead) */}
           <div className="w-1/3 flex justify-center">
-            {/* UPDATED LOGO: Using the new high-res asset */}
-            {/* h-20 lets the high-res image scale down sharply for high DPI screens */}
+            {/* SCALING LOGIC:
+              - h-16 (64px): A standard height for a horizontal "Wordmark" logo in a 96px (h-24) container.
+                This leaves ~16px padding top/bottom for perfect optical centering.
+              - w-auto: Maintains the exact aspect ratio of your new PNG.
+              - object-contain: Ensures no cropping ever occurs.
+            */}
             <img
-              src="https://i.ibb.co/ZpQLHNS8/5.jpg"
+              src="https://i.ibb.co/fzFr1hQY/full-logo-white-1.png"
               alt="Voxummah"
-              className="h-20 w-auto object-contain" 
+              className="h-16 w-auto object-contain max-w-full" 
             />
           </div>
 
@@ -72,22 +75,20 @@ export default function Header() {
       </div>
 
       {/* ------------------------------------------------------
-         DESKTOP LAYER 2: THE NAVIGATION DECK (The Premium Upgrade)
+         DESKTOP LAYER 2: THE NAVIGATION DECK (Premium Sans)
       ------------------------------------------------------- */}
       <div className="bg-neutral-900/95 backdrop-blur-sm border-b border-neutral-800 hidden md:block">
         <div className="max-w-7xl mx-auto px-4">
-          {/* Increased height slightly to h-14 for breathing room */}
           <nav className="flex items-center justify-center h-14">
             <ul className="flex space-x-10">
               {NAV_SECTIONS.map(section => (
                 <li key={section.name}>
                   <a 
                     href={section.path} 
-                    // TYPOGRAPHY UPGRADE:
-                    // 1. font-sans: Uses Inter for that clean "Geist" premium feel.
-                    // 2. text-sm: Bumped up one size from xs.
-                    // 3. tracking-widest: Maintains editorial elegance.
-                    className="text-sm font-sans font-bold tracking-widest text-neutral-400 hover:text-white hover:border-b-2 hover:border-brand-red pb-2 transition-all duration-200 relative top-[1px] hover:text-[#0d6b35]"
+                    // PREMIUM TYPOGRAPHY:
+                    // - font-sans + font-bold + tracking-widest = "Geist" / "Helvetica" aesthetic
+                    // - text-sm: Increased size for readability as requested
+                    className="text-sm font-sans font-bold tracking-widest text-neutral-400 hover:text-white hover:border-b-2 hover:border-brand-red pb-2 transition-all duration-200 relative top-[1px]"
                   >
                     {section.name}
                   </a>
@@ -101,13 +102,12 @@ export default function Header() {
       {/* ------------------------------------------------------
          MOBILE HEADER
       ------------------------------------------------------- */}
-      {/* Increased mobile height to h-20 for larger logo */}
       <div className="md:hidden bg-neutral-900 text-white border-b border-neutral-800 h-20 flex items-center justify-between px-4">
-        {/* Mobile Logo - Updated and sized up */}
+        {/* Mobile Logo: Scaled to h-10 (40px) to fit comfortably in h-20 header */}
         <img
-          src="https://i.ibb.co/ZpQLHNS8/5.jpg"
+          src="https://i.ibb.co/fzFr1hQY/full-logo-white-1.png"
           alt="Voxummah"
-          className="h-14 w-auto object-contain"
+          className="h-10 w-auto object-contain"
         />
 
         <div className="flex items-center space-x-5">
@@ -133,7 +133,6 @@ export default function Header() {
               <a 
                 key={section.name} 
                 href={section.path} 
-                // Updated mobile menu to match new sans-serif premium feel
                 className="block text-lg font-sans font-bold tracking-wide text-white border-l-2 border-transparent hover:border-brand-red hover:pl-4 hover:bg-neutral-800 py-2 transition-all duration-300"
               >
                 {section.name}
