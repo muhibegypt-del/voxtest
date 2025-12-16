@@ -57,7 +57,7 @@ export default function Header() {
               <User size={16} />
               <span>Sign In</span>
             </button>
-            <button className="text-neutral-400 hover:text-brand-red transition-colors">
+            <button className="text-neutral-400 hover:text-brand-hover-green transition-colors">
               <Search size={18} />
             </button>
             <button className="bg-brand-red text-white text-xs font-bold uppercase tracking-widest px-5 py-2 rounded-sm hover:bg-white hover:text-neutral-900 transition-all duration-300 font-sans">
@@ -76,13 +76,9 @@ export default function Header() {
             <ul className="flex space-x-10">
               {NAV_SECTIONS.map(section => (
                 <li key={section.name}>
-                  <a 
-                    href={section.path} 
-                    // NEW INTERACTION LOGIC:
-                    // 1. Text turns Deep Green (#0d6b35)
-                    // 2. Border (Underline) turns Brand Red (#ba2a33)
-                    // This creates the requested dual-color contrast effect.
-                    className="text-sm font-sans font-bold tracking-widest text-neutral-400 hover:text-brand-green-deep hover:border-b-2 hover:border-brand-red pb-2 transition-all duration-200 relative top-[1px]"
+                  <a
+                    href={section.path}
+                    className="text-sm font-sans font-bold tracking-widest text-neutral-400 hover:text-brand-hover-green hover:border-b-2 hover:border-brand-hover-red pb-2 transition-all duration-200 relative top-[1px] no-underline"
                   >
                     {section.name}
                   </a>
@@ -108,7 +104,7 @@ export default function Header() {
             <Search size={20} />
           </button>
           <button
-            className="text-white hover:text-brand-red transition-colors"
+            className="text-white hover:text-brand-hover-green transition-colors"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           >
             {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
@@ -123,11 +119,10 @@ export default function Header() {
         <div className="md:hidden bg-neutral-900 border-t border-neutral-800 absolute w-full min-h-screen z-50">
           <nav className="px-6 py-6 space-y-6">
             {NAV_SECTIONS.map(section => (
-              <a 
-                key={section.name} 
-                href={section.path} 
-                // Mobile: Text becomes Green, Left Border becomes Red
-                className="block text-lg font-sans font-bold tracking-wide text-white border-l-2 border-transparent hover:border-brand-red hover:text-brand-green-deep hover:pl-4 hover:bg-neutral-800 py-2 transition-all duration-300"
+              <a
+                key={section.name}
+                href={section.path}
+                className="block text-lg font-sans font-bold tracking-wide text-white border-l-2 border-transparent hover:border-brand-hover-red hover:text-brand-hover-green hover:pl-4 hover:bg-neutral-800 py-2 transition-all duration-300 no-underline"
               >
                 {section.name}
               </a>

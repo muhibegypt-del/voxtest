@@ -10,8 +10,7 @@ export default function LatestStories() {
     // bg-neutral-50 maps to #FAFAFA (Very subtle separation from white)
     <section className="bg-neutral-50 py-12">
       <div className="max-w-7xl mx-auto px-4">
-        {/* Section Header: Split-colored border (half green, half red) */}
-        <h2 className="text-2xl font-heading font-bold text-neutral-900 mb-6 pb-3" style={{ borderBottom: '2px solid', backgroundImage: 'linear-gradient(to right, #143a21 50%, #711f29 50%)', backgroundClip: 'border-box', WebkitBackgroundClip: 'border-box', borderImage: 'linear-gradient(to right, #143a21 50%, #711f29 50%) 1' }}>
+        <h2 className="text-2xl font-heading font-bold text-neutral-900 mb-6 pb-3" style={{ borderBottom: '2px solid', borderImage: 'linear-gradient(90deg, #143a21 50%, #711f29 50%) 1' }}>
           LATEST STORIES
         </h2>
 
@@ -28,7 +27,6 @@ export default function LatestStories() {
                 />
               </div>
               
-              {/* Title: Hover triggers Brand Red */}
               <h3 className="text-lg font-heading font-bold text-neutral-900 mb-2 group-hover:text-brand-hover-green transition-colors leading-tight line-clamp-2 break-words">
                 {story.title}
               </h3>

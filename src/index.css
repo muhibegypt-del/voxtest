@@ -20,6 +20,11 @@
 
   a:hover {
     color: #143a21;
-    border-bottom-color: #711f29;
+  }
+
+  a:hover:not(.no-underline) {
+    text-decoration: underline;
+    text-decoration-color: #711f29;
+    text-underline-offset: 3px;
   }
 }

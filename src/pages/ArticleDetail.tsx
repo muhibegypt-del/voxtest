@@ -71,7 +71,7 @@ export default function ArticleDetail() {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-red-700 mx-auto"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-brand-red mx-auto"></div>
           <p className="mt-4 text-neutral-600">Loading article...</p>
         </div>
       </div>
@@ -89,7 +89,7 @@ export default function ArticleDetail() {
           </p>
           <Link
             to="/"
-            className="inline-flex items-center space-x-2 bg-red-700 text-white px-6 py-3 rounded-lg hover:bg-red-800 transition-colors"
+            className="inline-flex items-center space-x-2 bg-brand-red text-white px-6 py-3 rounded-lg hover:bg-brand-hover-red transition-colors no-underline"
           >
             <ArrowLeft size={20} />
             <span>Back to Home</span>
@@ -103,7 +103,7 @@ export default function ArticleDetail() {
     <article className="min-h-screen bg-white">
       <div className="fixed top-0 left-0 w-full h-1 bg-neutral-200 z-50">
         <div
-          className="h-full bg-red-700 transition-all duration-150"
+          className="h-full bg-brand-red transition-all duration-150"
           style={{ width: `${scrollProgress}%` }}
         />
       </div>
@@ -112,7 +112,7 @@ export default function ArticleDetail() {
         <div className="max-w-4xl mx-auto px-4">
           <Link
             to="/"
-            className="inline-flex items-center space-x-2 text-neutral-600 hover:text-red-700 transition-colors"
+            className="inline-flex items-center space-x-2 text-neutral-600 hover:text-brand-hover-green transition-colors no-underline"
           >
             <ArrowLeft size={18} />
             <span>Back to Home</span>
@@ -125,7 +125,7 @@ export default function ArticleDetail() {
           <div className="mb-6">
             <Link
               to="/"
-              className="inline-flex items-center space-x-2 text-sm text-neutral-500 hover:text-red-700 transition-colors mb-4"
+              className="inline-flex items-center space-x-2 text-sm text-neutral-500 hover:text-brand-hover-green transition-colors mb-4 no-underline"
             >
               <span>Home</span>
               <span>/</span>
@@ -133,17 +133,17 @@ export default function ArticleDetail() {
             </Link>
 
             <div className="flex flex-wrap items-center gap-2 mb-4">
-              <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-red-100 text-red-800">
+              <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-brand-red/10 text-brand-red">
                 <Tag size={12} className="mr-1" />
                 {article.category}
               </span>
               {article.content_type && (
-                <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-blue-100 text-blue-800">
+                <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-section-analysis/10 text-section-analysis">
                   {article.content_type}
                 </span>
               )}
               {article.region && (
-                <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-green-100 text-green-800">
+                <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-brand-green/10 text-brand-green">
                   📍 {article.region}
                 </span>
               )}
@@ -224,7 +224,7 @@ export default function ArticleDetail() {
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                     />
                   </div>
-                  <h3 className="text-lg font-bold text-neutral-900 group-hover:text-red-700 transition-colors leading-tight line-clamp-2 break-words">
+                  <h3 className="text-lg font-bold text-neutral-900 group-hover:text-brand-hover-green transition-colors leading-tight line-clamp-2 break-words">
                     {related.title}
                   </h3>
                   <div className="text-sm text-neutral-500 mt-2">

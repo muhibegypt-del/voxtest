@@ -147,7 +147,7 @@ export default function LatestStories() {
               placeholder="Search articles..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-10 pr-4 py-3 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-red-700 focus:border-transparent"
+              className="w-full pl-10 pr-4 py-3 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-brand-red focus:border-transparent"
             />
           </div>
 
@@ -169,7 +169,7 @@ export default function LatestStories() {
                 onClick={() => setSelectedCategory(category)}
                 className={`px-4 py-2 rounded-full text-sm font-semibold transition-colors ${
                   selectedCategory === category
-                    ? 'bg-red-700 text-white'
+                    ? 'bg-brand-red text-white'
                     : 'bg-neutral-100 text-neutral-700 hover:bg-neutral-200'
                 }`}
               >
@@ -202,13 +202,13 @@ export default function LatestStories() {
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                       />
                       <div className="absolute top-3 left-3">
-                        <span className="inline-block px-3 py-1 bg-red-700 text-white text-xs font-bold rounded">
+                        <span className="inline-block px-3 py-1 bg-brand-red text-white text-xs font-bold rounded">
                           {article.category}
                         </span>
                       </div>
                     </div>
 
-                    <h2 className="text-xl font-bold text-neutral-900 mb-2 group-hover:text-red-700 transition-colors leading-tight line-clamp-2 break-words">
+                    <h2 className="text-xl font-bold text-neutral-900 mb-2 group-hover:text-brand-hover-green transition-colors leading-tight line-clamp-2 break-words">
                       {article.title}
                     </h2>
 
@@ -274,7 +274,7 @@ export default function LatestStories() {
 
             {!isShowingAll && (
               <div ref={observerTarget} className="text-center py-8">
-                <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-red-700 mx-auto"></div>
+                <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-brand-red mx-auto"></div>
                 <p className="mt-4 text-neutral-600">Loading more articles...</p>
               </div>
             )}
