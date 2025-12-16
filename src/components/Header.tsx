@@ -87,7 +87,7 @@ export default function Header() {
                     // 1. font-sans: Uses Inter for that clean "Geist" premium feel.
                     // 2. text-sm: Bumped up one size from xs.
                     // 3. tracking-widest: Maintains editorial elegance.
-                    className="text-sm font-sans font-bold tracking-widest text-neutral-400 hover:text-white hover:border-b-2 hover:border-brand-red pb-2 transition-all duration-200 relative top-[1px]"
+                    className="text-sm font-sans font-bold tracking-widest text-neutral-400 hover:text-white hover:border-b-2 hover:border-brand-red pb-2 transition-all duration-200 relative top-[1px] hover:text-[#0d6b35]"
                   >
                     {section.name}
                   </a>
