@@ -29,7 +29,7 @@ export default function LatestStories() {
               </div>
               
               {/* Title: Hover triggers Brand Red */}
-              <h3 className="text-lg font-heading font-bold text-neutral-900 mb-2 group-hover:text-brand-red transition-colors leading-tight line-clamp-2 break-words">
+              <h3 className="text-lg font-heading font-bold text-neutral-900 mb-2 group-hover:text-brand-hover-green transition-colors leading-tight line-clamp-2 break-words">
                 {story.title}
               </h3>
               
