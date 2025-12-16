@@ -53,16 +53,13 @@ export default function Header() {
 
           {/* RIGHT: Actions */}
           <div className="w-1/3 flex items-center justify-end space-x-6">
-            {/* Login Hover: Stays White for contrast */}
             <button className="text-neutral-400 hover:text-white transition-colors flex items-center gap-2 text-xs font-bold tracking-wider uppercase font-sans">
               <User size={16} />
               <span>Sign In</span>
             </button>
-            
             <button className="text-neutral-400 hover:text-brand-red transition-colors">
               <Search size={18} />
             </button>
-            
             <button className="bg-brand-red text-white text-xs font-bold uppercase tracking-widest px-5 py-2 rounded-sm hover:bg-white hover:text-neutral-900 transition-all duration-300 font-sans">
               Subscribe
             </button>
@@ -81,10 +78,11 @@ export default function Header() {
                 <li key={section.name}>
                   <a 
                     href={section.path} 
-                    // UPDATED HOVER INTERACTION:
-                    // hover:text-brand-green-deep -> Uses the new #0d6b35
-                    // hover:border-brand-green-deep -> Matches the underline to the text
-                    className="text-sm font-sans font-bold tracking-widest text-neutral-400 hover:text-brand-green-deep hover:border-b-2 hover:border-brand-green-deep pb-2 transition-all duration-200 relative top-[1px]"
+                    // NEW INTERACTION LOGIC:
+                    // 1. Text turns Deep Green (#0d6b35)
+                    // 2. Border (Underline) turns Brand Red (#ba2a33)
+                    // This creates the requested dual-color contrast effect.
+                    className="text-sm font-sans font-bold tracking-widest text-neutral-400 hover:text-brand-green-deep hover:border-b-2 hover:border-brand-red pb-2 transition-all duration-200 relative top-[1px]"
                   >
                     {section.name}
                   </a>
@@ -110,7 +108,6 @@ export default function Header() {
             <Search size={20} />
           </button>
           <button
-            // Mobile Menu Toggle Hover -> Keeps the Red pulse for consistency with buttons
             className="text-white hover:text-brand-red transition-colors"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           >
@@ -129,8 +126,8 @@ export default function Header() {
               <a 
                 key={section.name} 
                 href={section.path} 
-                // Mobile Links also get the Deep Green treatment
-                className="block text-lg font-sans font-bold tracking-wide text-white border-l-2 border-transparent hover:border-brand-green-deep hover:text-brand-green-deep hover:pl-4 hover:bg-neutral-800 py-2 transition-all duration-300"
+                // Mobile: Text becomes Green, Left Border becomes Red
+                className="block text-lg font-sans font-bold tracking-wide text-white border-l-2 border-transparent hover:border-brand-red hover:text-brand-green-deep hover:pl-4 hover:bg-neutral-800 py-2 transition-all duration-300"
               >
                 {section.name}
               </a>
