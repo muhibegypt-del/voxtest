@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { User } from 'lucide-react';
 import SearchBar from './SearchBar';
-import ThemeToggle from './ThemeToggle';
+
 
 // Masthead component - top bar with logo and actions
 export default function Masthead() {
@@ -47,7 +47,7 @@ export default function Masthead() {
                         <span>Admin</span>
                     </a>
                     <SearchBar />
-                    <ThemeToggle />
+
                     <button className="bg-brand-red text-white text-xs font-bold uppercase tracking-widest px-5 py-2 rounded-sm hover:bg-white hover:text-neutral-900 transition-all duration-300 font-sans min-h-[44px]">
                         Subscribe
                     </button>
