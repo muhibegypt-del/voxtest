@@ -1,6 +1,10 @@
 {
   "name": "vite-react-typescript-starter",
   "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/muhibegypt-del/voxtest.git"
+  },
   "version": "0.0.0",
   "type": "module",
   "scripts": {
