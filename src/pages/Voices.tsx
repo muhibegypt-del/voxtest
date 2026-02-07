@@ -1,7 +1,11 @@
 import SectionGrid from '../components/SectionGrid';
-import { VOICES_ARTICLES } from '../data/mockData';
+import { useContent } from '../context/ContentContext';
 
 export default function Voices() {
+  const { articles } = useContent();
+  // Filter for Voices category (case insensitive just in case)
+  const voicesArticles = articles.filter(a => a.category === 'Voices' || a.category === 'Opinion');
+
   return (
     <div className="min-h-screen bg-white">
       <section className="max-w-7xl mx-auto px-4 py-16 border-b border-neutral-200">
@@ -12,7 +16,7 @@ export default function Voices() {
           Perspectives and polemics from engaged intellectuals and revolutionaries on the front lines of historical struggle.
         </p>
       </section>
-      <SectionGrid articles={VOICES_ARTICLES} badgeColorClass="text-yellow-500 border-yellow-500" />
+      <SectionGrid articles={voicesArticles} badgeColorClass="text-yellow-500 border-yellow-500" />
     </div>
   );
 }

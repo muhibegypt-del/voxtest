@@ -1,10 +1,10 @@
-import { LATEST_ARTICLES } from '../data/mockData';
-import { Link } from 'react-router-dom';
-// We import the shared utility to ensure time formatting is consistent across the app
-import { formatRelativeTime } from '../lib/cms-utils';
+import { useContent } from '../context/ContentContext';
+import { ArticleCardSkeleton as SkeletonCard } from './Skeletons';
+import ArticleCard from './ui/ArticleCard';
 
 export default function LatestStories() {
-  const displayStories = LATEST_ARTICLES.slice(0, 4);
+  const { articles, loading } = useContent();
+  const displayStories = articles.slice(0, 4);
 
   return (
     // bg-neutral-50 maps to #FAFAFA (Very subtle separation from white)
@@ -15,33 +15,31 @@ export default function LatestStories() {
           LATEST STORIES
         </h2>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {displayStories.map((story) => (
-            <Link key={story.id} to={`/article/${story.slug}`} className="group cursor-pointer block">
-              {/* Image Placeholder */}
-              <div className="relative overflow-hidden rounded-sm mb-3 aspect-video bg-neutral-200">
-                <img
-                  src={story.image_url}
-                  alt={story.title}
-                  loading="lazy"
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                />
-              </div>
-              
-              {/* Title: Hover triggers Brand Red */}
-              <h3 className="text-lg font-heading font-bold text-neutral-900 mb-2 group-hover:text-brand-red transition-colors leading-tight line-clamp-2 break-words">
-                {story.title}
-              </h3>
-              
-              {/* Meta: Uses neutral-400 for de-emphasized info */}
-              <div className="text-sm text-neutral-400">
-                <span className="font-medium text-neutral-800">{story.author_name}</span>
-                <span className="mx-2">•</span> 
-                {formatRelativeTime(story.created_at)}
-              </div>
-            </Link>
-          ))}
-        </div>
+        {loading ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {[...Array(4)].map((_, i) => (
+              <SkeletonCard key={i} />
+            ))}
+          </div>
+        ) : displayStories.length === 0 ? (
+          // Principle 9: Supercharge default empty states
+          <div className="text-center py-12 bg-white rounded-lg border border-neutral-200 dashed">
+            <h3 className="text-xl font-heading font-bold text-neutral-400 mb-2">No Stories Found</h3>
+            <p className="text-neutral-500">Check back later for new updates.</p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {displayStories.map((story) => (
+              <ArticleCard
+                key={story.id}
+                article={story}
+                variant="standard"
+                showExcerpt={false}
+                showCategory={false}
+              />
+            ))}
+          </div>
+        )}
       </div>
     </section>
   );

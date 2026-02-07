@@ -1,7 +1,7 @@
-import { useState, useEffect, useRef, useCallback } from 'react';
-import { Link } from 'react-router-dom';
+import { useState, useEffect, useRef } from 'react';
 import { ARTICLES, Article } from '../data/mockData';
-import { Search, Filter, Calendar, User, Share2, Facebook, Twitter, Linkedin, ChevronDown } from 'lucide-react';
+import { Search, Filter, ChevronDown } from 'lucide-react';
+import ArticleCard from '../components/ui/ArticleCard';
 
 const ITEMS_PER_PAGE = 12;
 const CATEGORIES = ['All', 'News', 'Politics', 'Technology', 'Business', 'Sports', 'Entertainment'];
@@ -15,7 +15,6 @@ export default function LatestStories() {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [showFilters, setShowFilters] = useState(false);
-  const [shareArticleId, setShareArticleId] = useState<string | null>(null);
   const observerTarget = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -74,36 +73,6 @@ export default function LatestStories() {
 
   const displayedArticles = filteredArticles.slice(0, page * ITEMS_PER_PAGE);
   const isShowingAll = displayedArticles.length >= filteredArticles.length;
-
-  const formatDate = (dateString: string) => {
-    const date = new Date(dateString);
-    return date.toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-    });
-  };
-
-  const getExcerpt = (body: string, maxLength: number = 120) => {
-    if (body.length <= maxLength) return body;
-    return body.slice(0, maxLength).trim() + '...';
-  };
-
-  const handleShare = (article: Article, platform: string) => {
-    const url = `${window.location.origin}/article/${article.slug}`;
-    const text = article.title;
-
-    const shareUrls: Record<string, string> = {
-      facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`,
-      twitter: `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`,
-      linkedin: `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`,
-    };
-
-    if (shareUrls[platform]) {
-      window.open(shareUrls[platform], '_blank', 'width=600,height=400');
-    }
-    setShareArticleId(null);
-  };
 
   if (loading && articles.length === 0) {
     return (
@@ -167,11 +136,10 @@ export default function LatestStories() {
               <button
                 key={category}
                 onClick={() => setSelectedCategory(category)}
-                className={`px-4 py-2 rounded-full text-sm font-semibold transition-colors ${
-                  selectedCategory === category
-                    ? 'bg-red-700 text-white'
-                    : 'bg-neutral-100 text-neutral-700 hover:bg-neutral-200'
-                }`}
+                className={`px-4 py-2 rounded-full text-sm font-semibold transition-colors ${selectedCategory === category
+                  ? 'bg-red-700 text-white'
+                  : 'bg-neutral-100 text-neutral-700 hover:bg-neutral-200'
+                  }`}
               >
                 {category}
               </button>
@@ -190,86 +158,42 @@ export default function LatestStories() {
               Showing {displayedArticles.length} of {filteredArticles.length} articles
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
-              {displayedArticles.map((article) => (
-                <article key={article.id} className="group relative">
-                  <Link to={`/article/${article.slug}`} className="block">
-                    <div className="relative overflow-hidden rounded-sm mb-4 aspect-video bg-neutral-200">
-                      <img
-                        src={article.image_url}
-                        alt={article.title}
-                        loading="lazy"
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                      />
-                      <div className="absolute top-3 left-3">
-                        <span className="inline-block px-3 py-1 bg-red-700 text-white text-xs font-bold rounded">
-                          {article.category}
-                        </span>
-                      </div>
-                    </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+              {displayedArticles.map((article, index) => {
+                // Adaptive Layout Logic to prevent gaps
+                const total = displayedArticles.length;
+                let gridClass = '';
+                let cardVariant: 'hero' | 'standard' | 'wide' = 'standard';
+                let showExcerpt = true;
 
-                    <h2 className="text-xl font-bold text-neutral-900 mb-2 group-hover:text-red-700 transition-colors leading-tight line-clamp-2 break-words">
-                      {article.title}
-                    </h2>
+                if (index === 0) {
+                  gridClass = 'md:col-span-2 md:row-span-2';
+                  cardVariant = 'hero';
+                } else if (total === 2) {
+                  gridClass = 'md:col-span-2 md:row-span-2';
+                  cardVariant = 'hero'; // Split screen
+                } else if (total === 3) {
+                  gridClass = 'md:col-span-2';
+                  cardVariant = 'wide'; // Stacked wide cards
+                } else if (total === 4 && index === 3) {
+                  gridClass = 'md:col-span-2';
+                  cardVariant = 'wide'; // Bottom filler
+                }
 
-                    <p className="text-neutral-600 text-sm mb-3 line-clamp-2 leading-relaxed">
-                      {getExcerpt(article.body)}
-                    </p>
+                // Latest Stories specific: prevent standard cards from showing excerpts to keep grid tight?
+                // No, let's keep excerpts for standard cards here as it is a dedicated page.
 
-                    <div className="flex items-center justify-between text-sm text-neutral-500">
-                      <div className="flex items-center space-x-4">
-                        <div className="flex items-center space-x-1">
-                          <User size={14} />
-                          <span>{article.author_name}</span>
-                        </div>
-                        <div className="flex items-center space-x-1">
-                          <Calendar size={14} />
-                          <span>{formatDate(article.created_at)}</span>
-                        </div>
-                      </div>
-                    </div>
-                  </Link>
-
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setShareArticleId(shareArticleId === article.id ? null : article.id);
-                    }}
-                    className="absolute top-0 right-0 p-2 bg-white rounded-full shadow-md hover:bg-neutral-50 transition-colors"
-                    aria-label="Share article"
-                  >
-                    <Share2 size={16} className="text-neutral-700" />
-                  </button>
-
-                  {shareArticleId === article.id && (
-                    <div className="absolute top-12 right-0 bg-white rounded-lg shadow-xl border border-neutral-200 p-3 z-10">
-                      <div className="flex space-x-2">
-                        <button
-                          onClick={() => handleShare(article, 'facebook')}
-                          className="p-2 rounded-full hover:bg-blue-50 transition-colors"
-                          aria-label="Share on Facebook"
-                        >
-                          <Facebook size={20} className="text-blue-600" />
-                        </button>
-                        <button
-                          onClick={() => handleShare(article, 'twitter')}
-                          className="p-2 rounded-full hover:bg-blue-50 transition-colors"
-                          aria-label="Share on Twitter"
-                        >
-                          <Twitter size={20} className="text-blue-400" />
-                        </button>
-                        <button
-                          onClick={() => handleShare(article, 'linkedin')}
-                          className="p-2 rounded-full hover:bg-blue-50 transition-colors"
-                          aria-label="Share on LinkedIn"
-                        >
-                          <Linkedin size={20} className="text-blue-700" />
-                        </button>
-                      </div>
-                    </div>
-                  )}
-                </article>
-              ))}
+                return (
+                  <ArticleCard
+                    key={article.id}
+                    article={article}
+                    variant={cardVariant}
+                    priority={index === 0}
+                    showExcerpt={cardVariant === 'hero' || cardVariant === 'wide' || showExcerpt}
+                    className={`h-full ${gridClass}`}
+                  />
+                );
+              })}
             </div>
 
             {!isShowingAll && (

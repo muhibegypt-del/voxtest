@@ -5,12 +5,126 @@
 @tailwind utilities;
 
 @layer base {
-  body {
-    font-family: 'Inter', sans-serif;
+  :root {
+    /* BRAND CORE */
+    --brand-red: 356 63% 45%;
+    /* #ba2a33 */
+    --brand-green: 150 84% 22%;
+    /* #096939 */
+    --brand-green-deep: 146 78% 24%;
+    /* #0d6b35 */
+
+    /* SECTIONS */
+    --section-analysis: 221 83% 53%;
+    /* #2563EB */
+    --section-voices: 262 83% 58%;
+    /* #7C3AED */
+    --section-media: 38 92% 50%;
+    /* #F59E0B */
+    --section-store: 160 84% 39%;
+    /* #10B981 */
+    --section-archive: 24 5% 45%;
+    /* #78716C */
+
+    /* NEUTRAL SCALE */
+    /* NEUTRAL SCALE - Principle 1 & 3: Saturated Greys (Zinc-like) */
+    --neutral-900: 240 5% 7%;
+    /* #111113 */
+    --neutral-800: 240 5% 15%;
+    /* #242426 */
+    --neutral-600: 240 5% 33%;
+    /* #515154 */
+    --neutral-400: 240 5% 64%;
+    /* #A1A1A6 */
+    --neutral-200: 240 5% 90%;
+    /* #E4E4E6 */
+    --neutral-100: 240 5% 96%;
+    /* #F3F3F5 */
+    --neutral-50: 240 5% 98%;
+    /* #FAFAFB */
+
+    /* UI STATES */
+    --ui-error: 360 71% 51%;
+    /* #DC2626 */
+    --ui-success: 160 84% 39%;
+    /* #10B981 */
+    --ui-warning: 43 96% 56%;
+    /* #FBBF24 */
   }
 
-  h1, h2, h3, h4, h5, h6 {
+  body {
+    font-family: 'Inter', sans-serif;
+    color: hsl(var(--neutral-900));
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     font-family: 'Barlow Condensed', sans-serif;
     letter-spacing: -0.02em;
   }
+
+  /* Enhanced accessibility focus states */
+  :focus-visible {
+    outline: 2px solid hsl(var(--brand-red));
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  /* Remove default focus for mouse users, keep for keyboard */
+  :focus:not(:focus-visible) {
+    outline: none;
+  }
+}
+
+@layer components {
+
+  /* Consistent button base */
+  .btn {
+    @apply inline-flex items-center justify-center font-bold transition-all duration-150 ease-out min-h-[44px] px-6 py-3;
+  }
+
+  .btn-primary {
+    @apply bg-brand-red text-white hover:opacity-90 active:scale-[0.98];
+  }
+
+  .btn-secondary {
+    @apply border-2 border-neutral-300 text-neutral-700 hover:border-brand-red hover:text-brand-red;
+  }
+}
+
+@layer utilities {
+
+  /* Smooth skeleton pulse animation */
+  .animate-pulse {
+    animation: pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+
+  @keyframes pulse {
+
+    0%,
+    100% {
+      opacity: 1;
+    }
+
+    50% {
+      opacity: 0.5;
+    }
+  }
+}
+
+/* Dark Mode Color Overrides */
+.dark {
+  --neutral-900: 240 5% 96%;
+  --neutral-800: 240 5% 90%;
+  --neutral-600: 240 5% 64%;
+  --neutral-400: 240 5% 33%;
+  --neutral-200: 240 5% 15%;
+  --neutral-100: 240 5% 10%;
+  --neutral-50: 240 5% 7%;
 }

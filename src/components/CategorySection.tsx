@@ -1,95 +1,95 @@
-import { ARTICLES } from '../data/mockData';
-import { Link } from 'react-router-dom';
+import { useContent } from '../context/ContentContext';
+import { CategorySectionSkeleton } from './Skeletons';
+import { SECTIONS, SectionId } from '../lib/constants';
+import ArticleCard from './ui/ArticleCard';
 
-export default function CategorySection() {
-  // We strictly typecheck or filter these. 
-  // Ideally, in the future, we fetch by category ID.
-  const newsArticles = ARTICLES.filter(article => article.category === 'News').slice(0, 2);
-  const entertainmentArticles = ARTICLES.filter(article => article.category === 'Entertainment').slice(0, 2);
+interface CategorySectionProps {
+  categoryId: SectionId;
+}
 
-  const getExcerpt = (story: any) => {
-    if (story.body) {
-      return story.body.substring(0, 100) + '...';
-    }
-    return '';
+export default function CategorySection({ categoryId }: CategorySectionProps) {
+  const { articles, loading } = useContent();
+
+  // Get config for this section (title, color, etc.)
+  const sectionConfig = SECTIONS[categoryId.toUpperCase() as keyof typeof SECTIONS];
+
+  if (loading) {
+    return <CategorySectionSkeleton />;
+  }
+
+  // Filter articles that match this section's ID (normalized by ContentContext)
+  // Display only the latest 4 articles for this section
+  const sectionArticles = articles
+    .filter(article => article.category === sectionConfig.id)
+    .slice(0, 5);
+
+  // Border color mapping for Tailwind
+  const borderColorMap: Record<string, string> = {
+    'brand-red': 'border-brand-red',
+    'brand-green': 'border-brand-green',
+    'section-analysis': 'border-blue-600',
+    'section-voices': 'border-purple-600',
+    'section-media': 'border-amber-500',
+    'section-circles': 'border-teal-600',
+    'neutral-800': 'border-neutral-800',
+    // Fallbacks
+    'section-store': 'border-green-600',
+    'section-archive': 'border-stone-500',
   };
 
+  const borderColorClass = borderColorMap[sectionConfig.color] || 'border-neutral-800';
+
   return (
-    <section className="py-12">
+    <section id={`section-${sectionConfig.id.toLowerCase()}`} className="py-12 border-b border-neutral-200 last:border-0">
       <div className="max-w-7xl mx-auto px-4">
-        <div className="grid md:grid-cols-2 gap-8">
-          
-          {/* COLUMN 1: NEWS (The Pulse - Brand Red) */}
-          <div>
-            {/* Header: Uses Brand Red border to define the section */}
-            <h2 className="text-2xl font-heading font-bold text-neutral-900 mb-6 pb-3 border-b-2 border-brand-red">
-              NEWS
-            </h2>
-            <div className="space-y-6">
-              {newsArticles.map((story) => (
-                <Link key={story.id} to={`/article/${story.slug}`} className="group cursor-pointer flex gap-4">
-                  <div className="relative overflow-hidden rounded-sm w-40 h-28 flex-shrink-0 bg-neutral-200">
-                    <img
-                      src={story.image_url}
-                      alt={story.title}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                    />
-                  </div>
-                  <div>
-                    {/* Headline: Interactive state triggers Brand Red */}
-                    <h3 className="text-lg font-heading font-bold text-neutral-900 mb-2 group-hover:text-brand-red transition-colors leading-tight line-clamp-2 break-words">
-                      {story.title}
-                    </h3>
-                    {/* Excerpt: Uses the new Neutral-600 (High readability grey) */}
-                    <p className="text-sm text-neutral-600 leading-relaxed line-clamp-2 break-words">
-                      {getExcerpt(story)}
-                    </p>
-                  </div>
-                </Link>
-              ))}
-            </div>
-          </div>
 
-          {/* COLUMN 2: VIDEO (The Foundation - Brand Green) */}
-          {/* We introduce Brand Green here to differentiate Media content */}
-          <div>
-            <h2 className="text-2xl font-heading font-bold text-neutral-900 mb-6 pb-3 border-b-2 border-brand-green">
-              VIDEO
-            </h2>
-            <div className="space-y-6">
-              {entertainmentArticles.map((story) => (
-                <Link key={story.id} to={`/article/${story.slug}`} className="group cursor-pointer flex gap-4">
-                  <div className="relative overflow-hidden rounded-sm w-40 h-28 flex-shrink-0 bg-neutral-200">
-                    <img
-                      src={story.image_url}
-                      alt={story.title}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                    />
-                    
-                    {/* Play Button Overlay */}
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      {/* The button background turns Brand Green on hover */}
-                      <div className="w-12 h-12 bg-white/90 rounded-full flex items-center justify-center shadow-sm group-hover:bg-brand-green transition-colors duration-300">
-                        {/* The triangle turns white on hover to contrast with the Green bg */}
-                        <div className="w-0 h-0 border-l-[10px] border-l-neutral-900 border-t-[6px] border-t-transparent border-b-[6px] border-b-transparent ml-1 group-hover:border-l-white transition-colors"></div>
-                      </div>
-                    </div>
-                  </div>
-                  <div>
-                    {/* Headline: Interactive state triggers Brand Green */}
-                    <h3 className="text-lg font-heading font-bold text-neutral-900 mb-2 group-hover:text-brand-green transition-colors leading-tight line-clamp-2 break-words">
-                      {story.title}
-                    </h3>
-                    <p className="text-sm text-neutral-600 leading-relaxed line-clamp-2 break-words">
-                      {getExcerpt(story)}
-                    </p>
-                  </div>
-                </Link>
-              ))}
-            </div>
-          </div>
+        {/* Section Header */}
+        <h2 className={`text-2xl font-heading font-bold text-neutral-900 mb-6 pb-3 border-b-2 ${borderColorClass} inline-block pr-8`}>
+          {sectionConfig.title}
+        </h2>
 
+        {/* Articles Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {sectionArticles.length > 0 ? (
+            sectionArticles.map((story, index) => {
+              // Adaptive Layout Logic to prevent gaps
+              const total = sectionArticles.length;
+              let gridClass = '';
+              let cardVariant: 'hero' | 'standard' | 'wide' = 'standard';
+
+              if (index === 0) {
+                gridClass = 'md:col-span-2 md:row-span-2';
+                cardVariant = 'hero';
+              } else if (total === 2) {
+                gridClass = 'md:col-span-2 md:row-span-2';
+                cardVariant = 'hero'; // Split screen
+              } else if (total === 3) {
+                gridClass = 'md:col-span-2';
+                cardVariant = 'wide'; // Stacked wide cards
+              } else if (total === 4 && index === 3) {
+                gridClass = 'md:col-span-2';
+                cardVariant = 'wide'; // Bottom filler
+              }
+
+              return (
+                <ArticleCard
+                  key={story.id}
+                  article={story}
+                  variant={cardVariant}
+                  priority={index === 0}
+                  className={gridClass}
+                  showExcerpt={index === 0} // Only show excerpt for the featured one
+                  showCategory={false}
+                />
+              );
+            })
+          ) : (
+            <div className="col-span-full p-8 border border-dashed border-neutral-300 rounded-sm text-center">
+              <p className="text-neutral-500 italic">No stories currently available in {sectionConfig.title}.</p>
+            </div>
+          )}
         </div>
+
       </div>
     </section>
   );

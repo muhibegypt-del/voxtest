@@ -1,3 +1,15 @@
+export type ArticleCategory =
+  | 'News'
+  | 'Politics'
+  | 'Business'
+  | 'Technology'
+  | 'Sports'
+  | 'Entertainment'
+  | 'Analysis'
+  | 'Voices'
+  | 'Foundations'
+  | 'Bookshelf';
+
 export interface Article {
   id: string;
   title: string;
@@ -5,14 +17,14 @@ export interface Article {
   body: string;
   excerpt?: string;
   image_url: string | null;
-  category: string;
+  category: ArticleCategory;
   content_type: string;
   subcategory?: string;
   region?: string;
   published: boolean;
   featured: boolean;
   featured_priority: number;
-  scheduled_publish_at: string | null;
+  scheduled_publish_at?: string | null;
   view_count: number;
   tags: string[];
   meta_title?: string;
@@ -21,7 +33,7 @@ export interface Article {
   author_name: string;
   created_at: string;
   updated_at: string;
-  author_id: string;
+  author_id?: string;
 }
 
 export interface Tag {
